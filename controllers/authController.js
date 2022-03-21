@@ -5,10 +5,10 @@ const ApiError = require('../exceptions/apiError');
 class AuthController {
     async register(req, res, next) {
         try {
-            // const errors = validationResult(req);
-            // if (!errors.isEmpty()) {
-            //     return next(ApiError.BadRequest('Validation error', errors.array()))
-            // }
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return next(ApiError.BadRequest('Validation error', errors.array()))
+            }
             console.log(req.body)
             const {username, email, password} = req.body;
             const authData = authService.register(username, email, password);
@@ -21,6 +21,10 @@ class AuthController {
 
     async login(req, res, next) {
         try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return next(ApiError.BadRequest('Validation error', errors.array()))
+            }
             const {email, password} = req.body;
             const authData = await authService.login(email, password);
             res.cookie('refreshToken', authData.refreshToken, {maxAge: 1000 * 60 * 60 * 24, httpOnly: true})
