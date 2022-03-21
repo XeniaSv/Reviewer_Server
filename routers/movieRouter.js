@@ -20,10 +20,6 @@ router.get('/find/:id',
     authMiddleware,
     movieController.getMovieById);
 
-router.get('/random',
-    authMiddleware,
-    movieController.getRandomMovie);
-
 router.get('/',
     authMiddleware,
     movieController.getMovies);

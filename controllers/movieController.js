@@ -53,18 +53,6 @@ class MovieController {
         }
     }
 
-    async getRandomMovie(req, res, next) {
-        try {
-            const {type} = req.query;
-
-            const movieData = await movieService.getRandomMovie(type);
-
-            return res.status(200).json(movieData);
-        } catch (e) {
-            next(e);
-        }
-    }
-
     async getMovies(req, res, next) {
         try {
             const {isAdmin} = req.user;

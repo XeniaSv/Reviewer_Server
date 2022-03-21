@@ -1,5 +1,6 @@
 const MovieModel = require('../models/movie')
 const ApiError = require('../exceptions/apiError');
+const MovieDto = require('../dtos/movieDtos/movieDto');
 
 class MovieService {
     async createMovie(body, isAdmin) {
@@ -8,8 +9,10 @@ class MovieService {
         }
 
         try {
-            const movie = new MovieModel(body);
-            return await movie.save();
+            const movieModel = new MovieModel(body);
+            await movieModel.save();
+
+            return new MovieDto(movieModel);
         } catch (e) {
             throw ApiError.BadRequest('Movie with such name already exits')
         }
@@ -21,13 +24,15 @@ class MovieService {
         }
 
         try {
-            return await MovieModel.findByIdAndUpdate(
+            const movieModel = await MovieModel.findByIdAndUpdate(
                 id,
                 {
                     $set: body,
                 },
                 {new: true}
             );
+
+            return new MovieDto(movieModel);
         } catch (e) {
             throw ApiError.BadRequest('Cannot find movie with such id')
         }
@@ -46,35 +51,13 @@ class MovieService {
     }
 
     async getMovieById(id) {
-        const movie = MovieModel.findById(id);
+        const movie = await MovieModel.findById(id);
 
         if (!movie) {
             throw ApiError.BadRequest('Cannot find movie with such id')
         }
 
-        return movie;
-    }
-
-    async getRandomMovie(type) {
-        try {
-            let movie;
-
-            if (type === "series") {
-                movie = await MovieModel.aggregate([
-                    { $match: { isSeries: true } },
-                    { $sample: { size: 1 } },
-                ]);
-            } else {
-                movie = await MovieModel.aggregate([
-                    { $match: { isSeries: false } },
-                    { $sample: { size: 1 } },
-                ]);
-            }
-
-            return movie;
-        } catch (e) {
-            throw ApiError.BadRequest('Cannot aggregate movie');
-        }
+        return new MovieDto(movie);
     }
 
     async getMovies(isAdmin) {
@@ -82,7 +65,14 @@ class MovieService {
             throw ApiError.NotAdmin('You are not allowed!');
         }
 
-        return MovieModel.find();
+        const movieModels = await MovieModel.find();
+        const movieDtos = [];
+
+        for (const movieModel of movieModels) {
+            movieDtos.push(new MovieDto(movieModel));
+        }
+
+        return movieDtos;
     }
 }
 
