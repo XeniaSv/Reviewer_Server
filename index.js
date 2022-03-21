@@ -1,23 +1,20 @@
 const express = require('express');
-const app = express();
 const mongoose = require('mongoose');
-const dotenv = require('dotenv');
 const cors = require('cors');
-const authRoute = require('./routes/auth');
-const userRoute = require('./routes/users');
-const movieRoute = require('./routes/movies');
-const listRoute = require('./routes/lists');
+const cookieParser = require('cookie-parser');
+const errorMiddleware = require('./middlewares/errorMiddleware');
+const authRoute = require('./routers/authRouter');
+const userRoute = require('./routers/userRouter');
+const movieRoute = require('./routers/movieRouter');
+const listRoute = require('./routers/listRouter');
+require('dotenv').config()
 
-dotenv.config();
 
-mongoose
-    .connect(process.env.MONGO_URL , {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    })
-    .then(() => console.log('DB Connection Successful'))
-    .catch(err => console.log(err));
-app.use(express.json())
+const PORT = process.env.PORT || 8000;
+const app = express();
+
+app.use(express.json());
+app.use(cookieParser());
 app.use(cors({
     credentials: true,
     origin: process.env.CLIENT_URL
@@ -27,7 +24,19 @@ app.use('/api/auth', authRoute);
 app.use('/api/users', userRoute);
 app.use('/api/movies', movieRoute);
 app.use('/api/lists', listRoute);
+app.use(errorMiddleware);
 
-app.listen( process.env.PORT || 8000, () => {
-    console.log('Backend server is running')
-})
+const start = async (url, callback) => {
+    try {
+        await mongoose.connect(process.env.MONGO_URL, {
+            useUnifiedTopology: true,
+            useNewUrlParser: true
+        },() => console.log('DB connected'));
+        app.listen(PORT, () => console.log(`Server started on PORT ${PORT}`))
+    }
+    catch (e) {
+        console.log(e);
+    }
+};
+
+start();
