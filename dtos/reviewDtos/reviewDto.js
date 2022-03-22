@@ -3,6 +3,7 @@ module.exports = class ReviewDto {
     author;
     itemId;
     onItem;
+    likes;
     title;
     tags;
     textReview;
@@ -12,6 +13,7 @@ module.exports = class ReviewDto {
         this.author = model.author;
         this.itemId = model.item;
         this.onItem = model.onItem;
+        this.likes = model.likes.length;
         this.title = model.title;
         this.tags = model.tags;
         this.textReview = model.textReview;
