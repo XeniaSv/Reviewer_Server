@@ -1,6 +1,6 @@
 const MovieModel = require('../models/movie')
 const ApiError = require('../exceptions/apiError');
-const MovieDto = require('../dtos/movieDtos/movieDto');
+const MovieDto = require('../dtos/movieSeriesDtos/movieSeriesDto');
 
 class MovieService {
     async createMovie(body, isAdmin) {

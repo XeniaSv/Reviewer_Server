@@ -10,8 +10,7 @@ const MovieSchema = new mongoose.Schema({
     cast: [{type: String}],
     desc: {type: String},
     img: {type: String},
-    imgSm: {type: String},
-    isSeries: {type: Boolean, default: false}
+    imgSm: {type: String}
 }, {timestamps: true});
 
 module.exports = mongoose.model('Movie', MovieSchema);

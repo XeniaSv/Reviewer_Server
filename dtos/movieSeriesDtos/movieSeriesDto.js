@@ -1,4 +1,4 @@
-module.exports = class MovieDto{
+module.exports = class MovieSeriesDto {
     id;
     title;
     director;
@@ -10,7 +10,6 @@ module.exports = class MovieDto{
     desc;
     img;
     imgSm;
-    isSeries;
 
     constructor(model) {
         this.id = model._id;
@@ -24,6 +23,5 @@ module.exports = class MovieDto{
         this.desc = model.desc;
         this.img = model.img;
         this.imgSm = model.imgSm;
-        this.isSeries = model.isSeries;
     }
 }
