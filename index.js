@@ -8,6 +8,7 @@ const userRoute = require('./routers/userRouter');
 const movieRoute = require('./routers/movieRouter');
 const seriesRoute = require('./routers/seriesRouter');
 const bookRoute = require('./routers/bookRouter');
+const reviewRoute = require('./routers/reviewRouter');
 const listRoute = require('./routers/listRouter');
 require('dotenv').config()
 
@@ -27,6 +28,7 @@ app.use('/api/users', userRoute);
 app.use('/api/movies', movieRoute);
 app.use('/api/books', bookRoute);
 app.use('/api/series', seriesRoute);
+app.use('/api/review', reviewRoute);
 app.use('/api/lists', listRoute);
 app.use(errorMiddleware);
 
