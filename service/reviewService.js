@@ -118,6 +118,8 @@ class ReviewService {
             reviewModel.update(null, {
                 $push: {likes: userId}
             }, {new: true});
+
+            return new ReviewDto(reviewModel);
         } catch (e) {
             throw ApiError.BadRequest();
         }
@@ -138,6 +140,8 @@ class ReviewService {
             reviewModel.update(null, {
                 $pull: {likes: userId}
             }, {new: true});
+
+            return new ReviewDto(reviewModel);
         } catch (e) {
             throw ApiError.BadRequest();
         }

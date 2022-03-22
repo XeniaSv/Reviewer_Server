@@ -88,9 +88,9 @@ class ReviewController {
             const {id} = req.params;
             const {user} = req;
 
-            await reviewService.putLike(user.id, id);
+            const reviewData = await reviewService.putLike(user.id, id);
 
-            return res.status(201).json('You liked this review');
+            return res.status(201).json(reviewData);
         } catch (e) {
             next(e);
         }
@@ -101,9 +101,9 @@ class ReviewController {
             const {id} = req.params;
             const {user} = req;
 
-            await reviewService.poolLike(user.id, id);
+            const reviewData = await reviewService.poolLike(user.id, id);
 
-            return res.status(201).json('You unliked this review');
+            return res.status(201).json(reviewData);
         } catch (e) {
             next(e);
         }
