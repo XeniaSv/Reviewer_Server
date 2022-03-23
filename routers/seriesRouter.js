@@ -24,4 +24,20 @@ router.get('/',
     authMiddleware,
     seriesController.getSeries);
 
+router.put('/rate/:seriesId',
+    authMiddleware,
+    seriesController.putRatingSeries);
+
+router.get('/rate/:userId/:seriesId',
+    authMiddleware,
+    seriesController.getRatingSeriesByUser);
+
+router.delete('/rate/:userId/:seriesId',
+    authMiddleware,
+    seriesController.deleteRatingSeriesByUser);
+
+router.get('/rate/:seriesId',
+    authMiddleware,
+    seriesController.getAvgRating);
+
 module.exports = router;

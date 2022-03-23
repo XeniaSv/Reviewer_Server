@@ -64,6 +64,55 @@ class SeriesController {
             next(e);
         }
     }
+
+    async putRatingSeries(req, res, next) {
+        try {
+            const {body, user} = req;
+            const {seriesId} = req.params;
+
+            const ratingData = await seriesService.putRatingSeries(body, user.id, seriesId);
+
+            return res.status(201).json(ratingData);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async getRatingSeriesByUser(req, res, next) {
+        try {
+            const {userId, seriesId} = req.params;
+
+            const ratingData = await seriesService.getRatingSeriesByUser(seriesId, userId)
+
+            return res.status(200).json(ratingData);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async deleteRatingSeriesByUser(req, res, next) {
+        try {
+            const {userId, seriesId} = req.params;
+
+            await seriesService.deleteRatingSeriesByUser(seriesId, userId);
+
+            return res.status(200).json('Rating was deleted');
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async getAvgRating(req, res, next) {
+        try {
+            const {seriesId} = req.params;
+
+            const ratingData = await seriesService.getAvgRating(seriesId);
+
+            return res.status(200).json(ratingData);
+        } catch (e) {
+            next(e);
+        }
+    }
 }
 
 module.exports = new SeriesController();
