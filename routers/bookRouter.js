@@ -24,4 +24,20 @@ router.get('/',
     authMiddleware,
     bookController.getBooks);
 
+router.put('/rate/:bookId',
+    authMiddleware,
+    bookController.putRatingBook);
+
+router.get('/rate/:userId/:bookId',
+    authMiddleware,
+    bookController.getRatingBookByUser);
+
+router.delete('/rate/:userId/:bookId',
+    authMiddleware,
+    bookController.deleteRatingBookByUser);
+
+router.get('/rate/:bookId',
+    authMiddleware,
+    bookController.getAvgRating);
+
 module.exports = router;

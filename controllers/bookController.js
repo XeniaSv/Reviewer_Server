@@ -64,6 +64,55 @@ class BookController {
             next(e);
         }
     }
+
+    async putRatingBook(req, res, next) {
+        try {
+            const {body, user} = req;
+            const {bookId} = req.params;
+
+            const ratingData = await bookService.putRatingBook(body, user.id, bookId);
+
+            return res.status(201).json(ratingData);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async getRatingBookByUser(req, res, next) {
+        try {
+            const {userId, bookId} = req.params;
+
+            const ratingData = await bookService.getRatingBookByUser(bookId, userId)
+
+            return res.status(200).json(ratingData);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async deleteRatingBookByUser(req, res, next) {
+        try {
+            const {userId, bookId} = req.params;
+
+            await bookService.deleteRatingBookByUser(bookId, userId);
+
+            return res.status(200).json('Rating was deleted');
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async getAvgRating(req, res, next) {
+        try {
+            const {bookId} = req.params;
+
+            const ratingData = await bookService.getAvgRating(bookId);
+
+            return res.status(200).json(ratingData);
+        } catch (e) {
+            next(e);
+        }
+    }
 }
 
 module.exports = new BookController();
