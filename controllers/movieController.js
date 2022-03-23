@@ -64,6 +64,55 @@ class MovieController {
             next(e);
         }
     }
+
+    async putRatingMovie(req, res, next) {
+        try {
+            const {body, user} = req;
+            const {movieId} = req.params;
+
+            const ratingData = await movieService.putRatingMovie(body, user.id, movieId);
+
+            return res.status(201).json(ratingData);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async getRatingMovieByUser(req, res, next) {
+        try {
+            const {userId, movieId} = req.params;
+
+            const ratingData = await movieService.getRatingMovieByUser(movieId, userId)
+
+            return res.status(200).json(ratingData);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async deleteRatingMovieByUser(req, res, next) {
+        try {
+            const {userId, movieId} = req.params;
+
+            await movieService.deleteRatingMovieByUser(movieId, userId);
+
+            return res.status(200).json('Rating was deleted');
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async getAvgRating(req, res, next) {
+        try {
+            const {movieId} = req.params;
+
+            const ratingData = await movieService.getAvgRating(movieId);
+
+            return res.status(200).json(ratingData);
+        } catch (e) {
+            next(e);
+        }
+    }
 }
 
 module.exports = new MovieController();

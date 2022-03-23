@@ -24,4 +24,20 @@ router.get('/',
     authMiddleware,
     movieController.getMovies);
 
+router.put('/rate/:movieId',
+    authMiddleware,
+    movieController.putRatingMovie);
+
+router.get('/rate/:userId/:movieId',
+    authMiddleware,
+    movieController.getRatingMovieByUser);
+
+router.delete('/rate/:userId/:movieId',
+    authMiddleware,
+    movieController.deleteRatingMovieByUser);
+
+router.get('/rate/:movieId',
+    authMiddleware,
+    movieController.getAvgRating);
+
 module.exports = router;
