@@ -4,7 +4,7 @@ const ApiError = require('../exceptions/apiError');
 
 class ReviewService {
     async createReview(body) {
-        const existingReviewModel = ReviewModel.find({author: body.author, item: body.item});
+        const existingReviewModel = await ReviewModel.find({author: body.author, item: body.item});
 
         if (existingReviewModel) {
             throw ApiError.BadRequest('You have already create review')
@@ -21,7 +21,7 @@ class ReviewService {
     }
 
     async updateReview(body, userId, paramId) {
-        const reviewModel = ReviewModel.findById(paramId);
+        const reviewModel = await ReviewModel.findById(paramId);
 
         if (!reviewModel) {
             throw ApiError.BadRequest('Review with such id not found');
@@ -30,15 +30,15 @@ class ReviewService {
         if (reviewModel.author !== userId)
             throw ApiError.BadRequest('You cannot update this review');
 
-        reviewModel.update(null, {
+        const updateReviewModel = ReviewModel.findByIdAndUpdate(reviewModel._id, {
             $set: body
-        }, {new: true});
+        }, {new: true})
 
-        return new ReviewDto(reviewModel);
+        return new ReviewDto(updateReviewModel);
     }
 
     async deleteReview(userId, paramId) {
-        const reviewModel = ReviewModel.findById(paramId);
+        const reviewModel = await ReviewModel.findById(paramId);
 
         if (!reviewModel) {
             throw ApiError.BadRequest('Review with such id not found');
@@ -51,7 +51,7 @@ class ReviewService {
     }
 
     async getReviewById(paramId) {
-        const reviewModel = ReviewModel.findById(paramId);
+        const reviewModel = await ReviewModel.findById(paramId);
 
         if (!reviewModel) {
             throw ApiError.BadRequest('Review with such id not found');
@@ -61,7 +61,7 @@ class ReviewService {
     }
 
     async getReviewsByItemId(paramId) {
-        const reviewModels = ReviewModel.find({item: paramId});
+        const reviewModels = await ReviewModel.find({item: paramId});
 
         if (!reviewModels) {
             throw ApiError.BadRequest('There is no such item');
@@ -77,7 +77,7 @@ class ReviewService {
     }
 
     async getReviewsByAuthorId(paramId) {
-        const reviewModels = ReviewModel.find({author: paramId});
+        const reviewModels = await ReviewModel.find({author: paramId});
 
         if (!reviewModels) {
             throw ApiError.BadRequest('There is no such author');
@@ -93,7 +93,7 @@ class ReviewService {
     }
 
     async getReviews() {
-        const reviewModels = ReviewModel.find();
+        const reviewModels = await ReviewModel.find();
         const reviewDtos = [];
 
         for (const reviewModel of reviewModels) {
@@ -104,7 +104,7 @@ class ReviewService {
     }
 
     async putLike(userId, paramId) {
-        const reviewModel = ReviewModel.findById(paramId);
+        const reviewModel = await ReviewModel.findById(paramId);
 
         if (!reviewModel) {
             throw ApiError.BadRequest('Review with such id not found');
@@ -126,7 +126,7 @@ class ReviewService {
     }
 
     async poolLike(userId, paramId) {
-        const reviewModel = ReviewModel.findById(paramId);
+        const reviewModel = await ReviewModel.findById(paramId);
 
         if (!reviewModel) {
             throw ApiError.BadRequest('Review with such id not found');
@@ -149,7 +149,7 @@ class ReviewService {
 
     async getLatestReviews(type) {
         try {
-            const reviewModels = ReviewModel.aggregate([
+            const reviewModels = await ReviewModel.aggregate([
                 {$sample: {size: 10}},
                 {$match: {onItem: type}},
                 {$sort: {createdAt: -1}}
@@ -169,7 +169,7 @@ class ReviewService {
 
     async getPopularReviews(type) {
         try {
-            const reviewModels = ReviewModel.aggregate([
+            const reviewModels = await ReviewModel.aggregate([
                 {$sample: {size: 10}},
                 {$match: {onItem: type}},
                 {$sort: {likes: -1}}

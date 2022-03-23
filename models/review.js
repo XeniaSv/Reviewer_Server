@@ -8,6 +8,6 @@ const ReviewSchema = mongoose.Schema({
     title: {type: String, require: true},
     tags: [{type: String}],
     textReview: {type: String, require: true}
-})
+}, {timestamps: true})
 
 module.exports = mongoose.model('Review', ReviewSchema)
