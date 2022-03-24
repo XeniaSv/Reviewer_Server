@@ -16,7 +16,7 @@ router.delete('/:id',
     authMiddleware,
     movieController.deleteMovie);
 
-router.get('/find/:id',
+router.get('/:id',
     authMiddleware,
     movieController.getMovieById);
 
@@ -31,10 +31,6 @@ router.put('/rate/:movieId',
 router.get('/rate/:userId/:movieId',
     authMiddleware,
     movieController.getRatingMovieByUser);
-
-router.delete('/rate/:userId/:movieId',
-    authMiddleware,
-    movieController.deleteRatingMovieByUser);
 
 router.get('/rate/:movieId',
     authMiddleware,

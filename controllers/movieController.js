@@ -90,18 +90,6 @@ class MovieController {
         }
     }
 
-    async deleteRatingMovieByUser(req, res, next) {
-        try {
-            const {userId, movieId} = req.params;
-
-            await movieService.deleteRatingMovieByUser(movieId, userId);
-
-            return res.status(200).json('Rating was deleted');
-        } catch (e) {
-            next(e);
-        }
-    }
-
     async getAvgRating(req, res, next) {
         try {
             const {movieId} = req.params;
