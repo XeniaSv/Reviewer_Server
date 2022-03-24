@@ -54,13 +54,13 @@ class SeriesService {
     }
 
     async getSeriesById(id) {
-        const seriesModel = await SeriesModel.findById(id);
+        try {
+            const seriesModel = await SeriesModel.findById(id);
 
-        if (!seriesModel) {
+            return new SeriesDto(seriesModel);
+        } catch (e) {
             throw ApiError.BadRequest('Cannot find series with such id')
         }
-
-        return new SeriesDto(seriesModel);
     }
 
     async getSeries(isAdmin) {
@@ -79,17 +79,13 @@ class SeriesService {
     }
 
     async putRatingSeries(body, userId, seriesId) {
-        if (body.rate < 1 || body.rate > 5) {
-            throw ApiError.BadRequest('Rate must be in range [1; 5]');
-        }
-
         const seriesModel = await SeriesModel.findById(seriesId);
 
         if (!seriesModel) {
             throw ApiError.BadRequest('There is no such movie');
         }
 
-        const existedRate = await RatingModel.find({user: body.user, item: body.item});
+        const existedRate = await RatingModel.findOne({user: body.user, item: body.item});
 
         if (!existedRate) {
             const ratingModel = new RatingModel(body);
@@ -101,6 +97,11 @@ class SeriesService {
             throw ApiError.BadRequest('You cannot update this rate');
         }
 
+        if (body.rate === null) {
+            await RatingModel.findByIdAndDelete(existedRate._id);
+            return {user: userId, item: seriesId, onItem: 'Series', rate: body.rate}
+        }
+
         const ratingModel = await RatingModel.findByIdAndUpdate(existedRate._id, {
             $set: body
         }, {new: true});
@@ -109,23 +110,13 @@ class SeriesService {
     }
 
     async getRatingSeriesByUser(seriesId, userId) {
-        const ratingModel = await RatingModel.find({user: userId, item: seriesId});
+        const ratingModel = await RatingModel.findOne({user: userId, item: seriesId});
 
         if (!ratingModel) {
-            throw ApiError.BadRequest('You dont rate this movie');
+            return {user: userId, item: seriesId, onItem: 'Series', rate: 0};
         }
 
         return new RatingDto(ratingModel);
-    }
-
-    async deleteRatingSeriesByUser(seriesId, userId) {
-        const ratingModel = await RatingModel.find({user: userId, item:seriesId});
-
-        if (!ratingModel) {
-            throw ApiError.BadRequest('You dont rate this movie');
-        }
-
-        await RatingModel.findByIdAndDelete(ratingModel._id);
     }
 
     async getAvgRating(seriesId) {
@@ -136,17 +127,22 @@ class SeriesService {
         }
 
         const ratingModels = await RatingModel.find({item: seriesId});
+
+        if (ratingModels.length === 0) {
+            return {item: seriesId, onItem: "Series", rate: 0.0};
+        }
+
+        if (ratingModels.length === 1) {
+            return new RatingDto(ratingModels[0]);
+        }
+
         let sum = 0;
 
         for (const rating of ratingModels) {
             sum += rating.rate;
         }
 
-        if (ratingModels.length === 0) {
-            return 0;
-        }
-
-        return Math.round(sum/ratingModels.length);
+        return {item: seriesId, onItem: "Series", rate: (sum / ratingModels.length).toFixed(1)};
     }
 }
 

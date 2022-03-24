@@ -90,18 +90,6 @@ class SeriesController {
         }
     }
 
-    async deleteRatingSeriesByUser(req, res, next) {
-        try {
-            const {userId, seriesId} = req.params;
-
-            await seriesService.deleteRatingSeriesByUser(seriesId, userId);
-
-            return res.status(200).json('Rating was deleted');
-        } catch (e) {
-            next(e);
-        }
-    }
-
     async getAvgRating(req, res, next) {
         try {
             const {seriesId} = req.params;

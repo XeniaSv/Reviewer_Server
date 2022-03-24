@@ -16,7 +16,7 @@ router.delete('/:id',
     authMiddleware,
     seriesController.deleteSeries);
 
-router.get('/find/:id',
+router.get('/:id',
     authMiddleware,
     seriesController.getSeriesById);
 
@@ -31,10 +31,6 @@ router.put('/rate/:seriesId',
 router.get('/rate/:userId/:seriesId',
     authMiddleware,
     seriesController.getRatingSeriesByUser);
-
-router.delete('/rate/:userId/:seriesId',
-    authMiddleware,
-    seriesController.deleteRatingSeriesByUser);
 
 router.get('/rate/:seriesId',
     authMiddleware,
