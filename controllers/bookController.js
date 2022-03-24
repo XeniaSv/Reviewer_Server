@@ -90,18 +90,6 @@ class BookController {
         }
     }
 
-    async deleteRatingBookByUser(req, res, next) {
-        try {
-            const {userId, bookId} = req.params;
-
-            await bookService.deleteRatingBookByUser(bookId, userId);
-
-            return res.status(200).json('Rating was deleted');
-        } catch (e) {
-            next(e);
-        }
-    }
-
     async getAvgRating(req, res, next) {
         try {
             const {bookId} = req.params;

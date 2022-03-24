@@ -16,7 +16,7 @@ router.delete('/:id',
     authMiddleware,
     bookController.deleteBook);
 
-router.get('/find/:id',
+router.get('/:id',
     authMiddleware,
     bookController.getBookById);
 
@@ -31,10 +31,6 @@ router.put('/rate/:bookId',
 router.get('/rate/:userId/:bookId',
     authMiddleware,
     bookController.getRatingBookByUser);
-
-router.delete('/rate/:userId/:bookId',
-    authMiddleware,
-    bookController.deleteRatingBookByUser);
 
 router.get('/rate/:bookId',
     authMiddleware,
