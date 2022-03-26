@@ -82,7 +82,7 @@ class BookService {
         const bookModel = await BookModel.findById(bookId);
 
         if (!bookModel) {
-            throw ApiError.BadRequest('There is no such movie');
+            throw ApiError.BadRequest('There is no such book');
         }
 
         const existedRate = await RatingModel.findOne({user: body.user, item: body.item});
