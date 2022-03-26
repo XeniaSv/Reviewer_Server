@@ -16,15 +16,19 @@ router.delete('/:id',
     authMiddleware,
     reviewController.deleteReview);
 
-router.get('/findById/:id',
+router.get('/:id',
     authMiddleware,
     reviewController.getReviewById);
 
-router.get('/findByItemId/:id',
+router.get('/item/:id',
     authMiddleware,
     reviewController.getReviewsByItemId);
 
-router.get('/findByAuthorId/:id',
+router.get('/item/:id/ids',
+    authMiddleware,
+    reviewController.getReviewsIdsByItemId);
+
+router.get('/author/:id',
     authMiddleware,
     reviewController.getReviewsByAuthorId);
 
