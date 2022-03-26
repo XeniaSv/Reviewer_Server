@@ -28,7 +28,7 @@ app.use('/api/users', userRoute);
 app.use('/api/movies', movieRoute);
 app.use('/api/books', bookRoute);
 app.use('/api/series', seriesRoute);
-app.use('/api/review', reviewRoute);
+app.use('/api/reviews', reviewRoute);
 app.use('/api/lists', listRoute);
 app.use(errorMiddleware);
 
