@@ -40,11 +40,11 @@ router.put('/like/:id',
     authMiddleware,
     reviewController.putLike);
 
-router.get('/latest/:type',
+router.get('/latest/:type/ids',
     authMiddleware,
     reviewController.getLatestReviews);
 
-router.get('/popular/:type',
+router.get('/popular/:type/ids',
     authMiddleware,
     reviewController.getPopularReviews);
 

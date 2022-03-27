@@ -151,13 +151,13 @@ class ReviewService {
                 {$sort: {createdAt: -1}}
             ]);
 
-            const reviewDtos = [];
+            const reviewIds = [];
 
             for (const review of reviewModels) {
-                reviewDtos.push(review);
+                reviewIds.push(review._id);
             }
 
-            return reviewDtos;
+            return reviewIds;
         } catch (e) {
             throw ApiError.BadRequest('Cannot aggregate');
         }
@@ -171,13 +171,13 @@ class ReviewService {
                 {$sort: {likes: -1}}
             ]);
 
-            const reviewDtos = [];
+            const reviewIds = [];
 
             for (const review of reviewModels) {
-                reviewDtos.push(review);
+                reviewIds.push(review._id);
             }
 
-            return reviewDtos;
+            return reviewIds;
         } catch (e) {
             throw ApiError.BadRequest('Cannot aggregate');
         }
