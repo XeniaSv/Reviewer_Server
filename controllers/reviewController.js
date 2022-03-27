@@ -108,19 +108,6 @@ class ReviewController {
         }
     }
 
-    async poolLike(req, res, next) {
-        try {
-            const {id} = req.params;
-            const {user} = req;
-
-            const reviewData = await reviewService.poolLike(user.id, id);
-
-            return res.status(201).json(reviewData);
-        } catch (e) {
-            next(e);
-        }
-    }
-
     async getLatestReviews(req, res, next) {
         try {
             const {type} = req.params;

@@ -120,47 +120,27 @@ class ReviewService {
     }
 
     async putLike(userId, paramId) {
-        const reviewModel = await ReviewModel.findById(paramId);
+        const existingReviewModel = await ReviewModel.findById(paramId);
 
-        if (!reviewModel) {
+        if (!existingReviewModel) {
             throw ApiError.BadRequest('Review with such id not found');
         }
 
-        if (reviewModel.find({likes: userId})) {
-            throw ApiError.BadRequest('You have already liked this review')
-        }
-
-        try {
-            reviewModel.update(null, {
-                $push: {likes: userId}
-            }, {new: true});
-
-            return new ReviewDto(reviewModel);
-        } catch (e) {
-            throw ApiError.BadRequest();
-        }
-    }
-
-    async poolLike(userId, paramId) {
-        const reviewModel = await ReviewModel.findById(paramId);
-
-        if (!reviewModel) {
-            throw ApiError.BadRequest('Review with such id not found');
-        }
-
-        if (!reviewModel.find({likes: userId})) {
-            throw ApiError.BadRequest('You dont liked this review')
-        }
-
-        try {
-            reviewModel.update(null, {
+        if (existingReviewModel.likes.includes(userId)) {
+            const reviewModel = await ReviewModel.findByIdAndUpdate(paramId, {
                 $pull: {likes: userId}
             }, {new: true});
 
-            return new ReviewDto(reviewModel);
-        } catch (e) {
-            throw ApiError.BadRequest();
+            const userModel = await UserModel.findById(reviewModel.author);
+            return new ReviewDto(userModel.username, reviewModel);
         }
+
+        const reviewModel = await ReviewModel.findByIdAndUpdate(paramId, {
+            $push: {likes: userId}
+        }, {new: true});
+
+        const userModel = await UserModel.findById(reviewModel.author);
+        return new ReviewDto(userModel.username, reviewModel);
     }
 
     async getLatestReviews(type) {

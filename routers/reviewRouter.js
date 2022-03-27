@@ -40,10 +40,6 @@ router.put('/like/:id',
     authMiddleware,
     reviewController.putLike);
 
-router.put('/unlike/:id',
-    authMiddleware,
-    reviewController.poolLike);
-
 router.get('/latest/:type',
     authMiddleware,
     reviewController.getLatestReviews);
