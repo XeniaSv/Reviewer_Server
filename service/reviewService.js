@@ -146,9 +146,9 @@ class ReviewService {
     async getLatestReviews(type) {
         try {
             const reviewModels = await ReviewModel.aggregate([
-                {$sample: {size: 10}},
                 {$match: {onItem: type}},
-                {$sort: {createdAt: -1}}
+                {$sort: {createdAt: -1}},
+                {$limit: 10},
             ]);
 
             const reviewIds = [];
@@ -166,9 +166,9 @@ class ReviewService {
     async getPopularReviews(type) {
         try {
             const reviewModels = await ReviewModel.aggregate([
-                {$sample: {size: 10}},
                 {$match: {onItem: type}},
-                {$sort: {likes: -1}}
+                {$sort: {likes: -1}},
+                {$limit: 10},
             ]);
 
             const reviewIds = [];
