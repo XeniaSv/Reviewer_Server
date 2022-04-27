@@ -1,7 +1,8 @@
-const BookModel = require('../models/book')
+const BookModel = require('../models/book');
 const ApiError = require('../exceptions/apiError');
-const BookDto = require('../dtos/bookDtos/BookDto')
+const BookDto = require('../dtos/bookDtos/BookDto');
 const RatingModel = require("../models/rating");
+const ReviewModel = require('../models/review');
 const RatingDto = require("../dtos/ratingDto");
 
 class BookService {
@@ -46,8 +47,9 @@ class BookService {
         }
 
         try {
+            await RatingModel.deleteMany({item: id});
+            await ReviewModel.deleteMany({item: id});
             await BookModel.findByIdAndDelete(id);
-            await RatingModel.deleteMany({item: id})
         } catch (e) {
             throw ApiError.BadRequest('Cannot find movie with such id')
         }

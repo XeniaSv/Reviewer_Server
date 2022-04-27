@@ -2,6 +2,7 @@ const SeriesModel = require('../models/series');
 const ApiError = require('../exceptions/apiError');
 const SeriesDto = require('../dtos/movieSeriesDtos/movieSeriesDto');
 const RatingModel = require("../models/rating");
+const ReviewModel = require('../models/review');
 const RatingDto = require("../dtos/ratingDto");
 
 class SeriesService {
@@ -46,8 +47,9 @@ class SeriesService {
         }
 
         try {
+            await RatingModel.deleteMany({item: id});
+            await ReviewModel.deleteMany({item: id});
             await SeriesModel.findByIdAndDelete(id);
-            await RatingModel.deleteMany({item: id})
         } catch (e) {
             throw ApiError.BadRequest('Cannot find series with such id')
         }

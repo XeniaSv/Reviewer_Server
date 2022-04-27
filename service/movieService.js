@@ -1,5 +1,6 @@
 const MovieModel = require('../models/movie');
 const RatingModel = require('../models/rating');
+const ReviewModel = require('../models/review');
 const ApiError = require('../exceptions/apiError');
 const MovieDto = require('../dtos/movieSeriesDtos/movieSeriesDto');
 const RatingDto = require('../dtos/ratingDto');
@@ -46,8 +47,9 @@ class MovieService {
         }
 
         try {
-            await MovieModel.findByIdAndDelete(id);
             await RatingModel.deleteMany({item: id});
+            await ReviewModel.deleteMany({item: id});
+            await MovieModel.findByIdAndDelete(id);
         } catch (e) {
             throw ApiError.BadRequest('Cannot find movie with such id')
         }
@@ -58,8 +60,7 @@ class MovieService {
             const movie = await MovieModel.findById(id);
 
             return new MovieDto(movie);
-        }
-        catch (e) {
+        } catch (e) {
             throw ApiError.BadRequest('Cannot find movie with such id')
         }
     }
