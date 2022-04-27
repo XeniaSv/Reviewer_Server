@@ -9,13 +9,16 @@ const movieRoute = require('./routers/movieRouter');
 const seriesRoute = require('./routers/seriesRouter');
 const bookRoute = require('./routers/bookRouter');
 const reviewRoute = require('./routers/reviewRouter');
-const listRoute = require('./routers/listRouter');
+const { OAuth2Client } = require('google-auth-library');
 require('dotenv').config()
 
 
 const PORT = process.env.PORT || 8000;
 const app = express();
 
+//
+const client = new OAuth2Client(process.env.REACT_APP_GOOGLE_CLIENT_ID);
+//
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
@@ -29,7 +32,6 @@ app.use('/api/movies', movieRoute);
 app.use('/api/books', bookRoute);
 app.use('/api/series', seriesRoute);
 app.use('/api/reviews', reviewRoute);
-app.use('/api/lists', listRoute);
 app.use(errorMiddleware);
 
 const start = async (url, callback) => {
