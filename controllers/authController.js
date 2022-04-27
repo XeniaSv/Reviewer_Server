@@ -9,9 +9,8 @@ class AuthController {
             if (!errors.isEmpty()) {
                 return next(ApiError.BadRequest('Validation error', errors.array()))
             }
-            console.log(req.body)
             const {username, email, password} = req.body;
-            const authData = authService.register(username, email, password);
+            const authData = await authService.register(username, email, password);
             res.cookie('refreshToken', authData.refreshToken, {maxAge: 1000 * 60 * 60 * 24, httpOnly: true})
             return res.status(201).json(authData);
         } catch (e) {
