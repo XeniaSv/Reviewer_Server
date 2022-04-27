@@ -1,6 +1,9 @@
 const bcrypt = require("bcrypt");
 const UserModel = require('../models/user');
+const RatingModel = require("../models/rating");
+const ReviewModel = require('../models/review');
 const ApiError = require('../exceptions/apiError');
+const UserDto = require("../dtos/authDtos/UserDto");
 
 class UserService {
     async updateUser(body, userId, paramId, isAdmin) {
@@ -27,11 +30,17 @@ class UserService {
     }
 
     async deleteUser(userId, paramId, isAdmin) {
-        if (userId !== paramId || !isAdmin) {
-            throw new ApiError.NotYourAccount();
+        if (!isAdmin)
+            throw ApiError.NotAdmin('You are not allowed!');
+
+        if (userId !== paramId && !isAdmin) {
+            throw ApiError.NotYourAccount();
         }
 
         try {
+            await RatingModel.deleteMany({user: paramId});
+            await ReviewModel.deleteMany({author: paramId});
+            await ReviewModel.updateMany({$pull: {likes: paramId}});
             await UserModel.findByIdAndDelete(paramId);
         } catch (e) {
             throw ApiError.BadRequest('User with such id not found');
@@ -47,34 +56,19 @@ class UserService {
         return info;
     }
 
-    async getUsers(query, isAdmin) {
+    async getUsers(isAdmin) {
         if (!isAdmin) {
             throw new ApiError.NotAdmin('You are not allowed to see all users');
         }
 
-        return query
-            ? await UserModel.find().sort({_id: -1}).limit(5)
-            : await UserModel.find();
-    }
+        const userModels = await UserModel.find();
+        const userDtos = [];
 
-    async getUserStats() {
-        try {
-            return await UserModel.aggregate([
-                {
-                    $project: {
-                        month: {$month: "$createdAt"},
-                    },
-                },
-                {
-                    $group: {
-                        _id: "$month",
-                        total: {$sum: 1},
-                    },
-                },
-            ]);
-        } catch (e) {
-            throw ApiError.BadRequest('Cannot get user stats');
+        for (const userModel of userModels) {
+            userDtos.push(new UserDto(userModel));
         }
+
+        return userDtos;
     }
 }
 

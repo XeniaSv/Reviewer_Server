@@ -39,22 +39,11 @@ class UserController {
 
     async getUsers(req, res, next) {
         try {
-            const query = req.query.new;
             const {isAdmin} = req.user;
 
-            const usersData = await userService.getUsers(query, isAdmin);
+            const usersData = await userService.getUsers(isAdmin);
 
             return res.status(200).json(usersData);
-        } catch (e) {
-            next(e);
-        }
-    }
-
-    async getUserStats(req, res, next) {
-        try {
-            const data = await userService.getUserStats();
-
-            return res.status(200).json(data);
         } catch (e) {
             next(e);
         }

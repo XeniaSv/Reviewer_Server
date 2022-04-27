@@ -12,15 +12,12 @@ router.delete('/:id',
     authMiddleware,
     userController.deleteUser);
 
-router.get('/find/:id',
+router.get('/:id',
     authMiddleware,
     userController.findUser);
 
 router.get('/',
     authMiddleware,
     userController.getUsers);
-
-router.get('/stats',
-    userController.getUserStats);
 
 module.exports = router;
