@@ -75,9 +75,9 @@ class ReviewController {
 
     async getReviewsByAuthorId(req, res, next) {
         try {
-            const {id} = req.params;
+            const {type, id} = req.params;
 
-            const reviewData = await reviewService.getReviewsByAuthorId(id);
+            const reviewData = await reviewService.getReviewsByAuthorId(type, id);
 
             return res.status(200).json(reviewData)
         } catch (e) {

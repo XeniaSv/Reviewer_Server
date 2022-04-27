@@ -1,5 +1,8 @@
 const ReviewModel = require('../models/review');
 const UserModel = require('../models/user');
+const MovieModel = require('../models/movie');
+const SeriesModel = require('../models/series');
+const BookModel = require('../models/book');
 const ReviewDto = require('../dtos/reviewDtos/reviewDto')
 const ApiError = require('../exceptions/apiError');
 
@@ -25,7 +28,6 @@ class ReviewService {
 
     async updateReview(body, userId, paramId) {
         const reviewModel = await ReviewModel.findById(paramId);
-
         if (!reviewModel) {
             throw ApiError.BadRequest('Review with such id not found');
         }
@@ -33,7 +35,7 @@ class ReviewService {
         if (reviewModel.author !== userId)
             throw ApiError.BadRequest('You cannot update this review');
 
-        const updateReviewModel = ReviewModel.findByIdAndUpdate(reviewModel._id, {
+        const updateReviewModel = await ReviewModel.findByIdAndUpdate(reviewModel._id, {
             $set: body
         }, {new: true})
 
@@ -52,7 +54,7 @@ class ReviewService {
         if (reviewModel.author !== userId)
             throw ApiError.BadRequest('You cannot update this review');
 
-        await reviewModel.remove().exec();
+        await reviewModel.remove();
     }
 
     async getReviewById(paramId) {
@@ -92,15 +94,29 @@ class ReviewService {
         return reviewIds;
     }
 
-    async getReviewsByAuthorId(paramId) {
-        const reviewModels = await ReviewModel.find({author: paramId});
+    async getReviewsByAuthorId(paramType, paramId) {
+        let itemModel;
+        switch (paramType) {
+            case 'Movie':
+                itemModel = MovieModel;
+                break;
+            case 'Series':
+                itemModel = SeriesModel;
+                break;
+            case 'Book':
+                itemModel = BookModel;
+                break;
+        }
+
+        const reviewModels = await ReviewModel.find({author: paramId, onItem: paramType});
 
         const reviewDtos = [];
 
         const userModel = await UserModel.findById(paramId);
 
         for (const review of reviewModels) {
-            reviewDtos.push(new ReviewDto(userModel.username, review));
+            const item = await itemModel.findById(review.item);
+            reviewDtos.push(new ReviewDto(userModel.username, review, item.title));
         }
 
         return reviewDtos;

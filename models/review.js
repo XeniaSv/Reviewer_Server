@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const ReviewSchema = mongoose.Schema({
     author: {type: String, ref: 'User', require: true},
-    item: {type: String, ref: 'onItem', require: true},
+    item: {type: String, refPath: 'onItem', require: true},
     onItem: {type: String, enum: ['Movie', 'Series', 'Book'], require: true},
     likes: {
         type: [

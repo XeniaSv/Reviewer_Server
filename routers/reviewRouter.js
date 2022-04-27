@@ -28,7 +28,7 @@ router.get('/item/:id/ids',
     authMiddleware,
     reviewController.getReviewsIdsByItemId);
 
-router.get('/author/:id',
+router.get('/type/:type/author/:id',
     authMiddleware,
     reviewController.getReviewsByAuthorId);
 
