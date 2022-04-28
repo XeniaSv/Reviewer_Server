@@ -94,6 +94,18 @@ class ReviewService {
         return reviewIds;
     }
 
+    async getReviewsIdsByTag(paramTag, paramType) {
+        const reviewModels = await ReviewModel.find({onItem: paramType, tags: paramTag});
+
+        const reviewIds = [];
+
+        for (const review of reviewModels) {
+            reviewIds.push(review._id);
+        }
+
+        return reviewIds;
+    }
+
     async getReviewsByAuthorId(paramType, paramId) {
         let itemModel;
         switch (paramType) {

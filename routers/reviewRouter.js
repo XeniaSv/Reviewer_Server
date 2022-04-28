@@ -28,6 +28,10 @@ router.get('/item/:id/ids',
     authMiddleware,
     reviewController.getReviewsIdsByItemId);
 
+router.get('/type/:type/tag/:tag/ids',
+    authMiddleware,
+    reviewController.getReviewsIdsByTag);
+
 router.get('/type/:type/author/:id',
     authMiddleware,
     reviewController.getReviewsByAuthorId);

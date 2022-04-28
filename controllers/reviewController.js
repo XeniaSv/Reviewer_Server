@@ -73,6 +73,18 @@ class ReviewController {
         }
     }
 
+    async getReviewsIdsByTag(req, res, next) {
+        try {
+            const {tag, type} = req.params;
+
+            const reviewData = await reviewService.getReviewsIdsByTag(tag, type);
+
+            return res.status(200).json(reviewData);
+        } catch (e) {
+            next(e);
+        }
+    }
+
     async getReviewsByAuthorId(req, res, next) {
         try {
             const {type, id} = req.params;
