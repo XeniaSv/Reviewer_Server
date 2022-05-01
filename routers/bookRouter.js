@@ -17,11 +17,9 @@ router.delete('/:id',
     bookController.deleteBook);
 
 router.get('/:id',
-    authMiddleware,
     bookController.getBookById);
 
 router.get('/',
-    authMiddleware,
     bookController.getBooks);
 
 router.put('/rate/:bookId',
@@ -29,11 +27,9 @@ router.put('/rate/:bookId',
     bookController.putRatingBook);
 
 router.get('/rate/:userId/:bookId',
-    authMiddleware,
     bookController.getRatingBookByUser);
 
 router.get('/rate/:bookId',
-    authMiddleware,
     bookController.getAvgRating);
 
 module.exports = router;

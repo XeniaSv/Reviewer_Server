@@ -55,9 +55,7 @@ class SeriesController {
 
     async getSeries(req, res, next) {
         try {
-            const {isAdmin} = req.user;
-
-            const seriesData = await seriesService.getSeries(isAdmin);
+            const seriesData = await seriesService.getSeries();
 
             return res.status(200).json(seriesData);
         } catch (e) {

@@ -55,9 +55,7 @@ class MovieController {
 
     async getMovies(req, res, next) {
         try {
-            const {isAdmin} = req.user;
-
-            const moviesData = await movieService.getMovies(isAdmin);
+            const moviesData = await movieService.getMovies();
 
             return res.status(200).json(moviesData);
         } catch (e) {

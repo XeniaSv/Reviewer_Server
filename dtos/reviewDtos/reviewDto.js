@@ -1,6 +1,7 @@
 module.exports = class ReviewDto {
     id;
     author;
+    authorId;
     itemId;
     itemTitle;
     onItem;
@@ -12,6 +13,7 @@ module.exports = class ReviewDto {
 
     constructor(username, model, itemTitle='') {
         this.id = model._id;
+        this.authorId = model.author;
         this.author = username;
         this.itemId = model.item;
         this.itemTitle = itemTitle;

@@ -65,11 +65,7 @@ class BookService {
         }
     }
 
-    async getBooks(isAdmin) {
-        if (!isAdmin) {
-            throw ApiError.NotAdmin('You are not allowed!');
-        }
-
+    async getBooks() {
         const bookModels = await BookModel.find();
         const bookDtos =[];
 

@@ -17,11 +17,9 @@ router.delete('/:id',
     seriesController.deleteSeries);
 
 router.get('/:id',
-    authMiddleware,
     seriesController.getSeriesById);
 
 router.get('/',
-    authMiddleware,
     seriesController.getSeries);
 
 router.put('/rate/:seriesId',
@@ -29,11 +27,9 @@ router.put('/rate/:seriesId',
     seriesController.putRatingSeries);
 
 router.get('/rate/:userId/:seriesId',
-    authMiddleware,
     seriesController.getRatingSeriesByUser);
 
 router.get('/rate/:seriesId',
-    authMiddleware,
     seriesController.getAvgRating);
 
 module.exports = router;

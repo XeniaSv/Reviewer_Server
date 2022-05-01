@@ -65,11 +65,7 @@ class SeriesService {
         }
     }
 
-    async getSeries(isAdmin) {
-        if (!isAdmin) {
-            throw ApiError.NotAdmin('You are not allowed!');
-        }
-
+    async getSeries() {
         const seriesModels = await SeriesModel.find();
         const seriesDtos = [];
 

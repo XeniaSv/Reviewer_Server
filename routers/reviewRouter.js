@@ -17,27 +17,21 @@ router.delete('/:id',
     reviewController.deleteReview);
 
 router.get('/:id',
-    authMiddleware,
     reviewController.getReviewById);
 
 router.get('/item/:id',
-    authMiddleware,
     reviewController.getReviewsByItemId);
 
 router.get('/item/:id/ids',
-    authMiddleware,
     reviewController.getReviewsIdsByItemId);
 
 router.get('/type/:type/tag/:tag/ids',
-    authMiddleware,
     reviewController.getReviewsIdsByTag);
 
 router.get('/type/:type/author/:id',
-    authMiddleware,
     reviewController.getReviewsByAuthorId);
 
 router.get('/',
-    authMiddleware,
     reviewController.getReviews);
 
 router.put('/like/:id',
@@ -45,11 +39,9 @@ router.put('/like/:id',
     reviewController.putLike);
 
 router.get('/latest/:type/ids',
-    authMiddleware,
     reviewController.getLatestReviews);
 
 router.get('/popular/:type/ids',
-    authMiddleware,
     reviewController.getPopularReviews);
 
 module.exports = router;

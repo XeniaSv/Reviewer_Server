@@ -65,11 +65,7 @@ class MovieService {
         }
     }
 
-    async getMovies(isAdmin) {
-        if (!isAdmin) {
-            throw ApiError.NotAdmin('You are not allowed!');
-        }
-
+    async getMovies() {
         const movieModels = await MovieModel.find();
         const movieDtos = [];
 

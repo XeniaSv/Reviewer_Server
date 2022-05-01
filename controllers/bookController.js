@@ -55,9 +55,7 @@ class BookController {
 
     async getBooks(req, res, next) {
         try {
-            const {isAdmin} = req.user;
-
-            const booksData = await bookService.getBooks(isAdmin);
+            const booksData = await bookService.getBooks();
 
             return res.status(200).json(booksData);
         } catch (e) {
