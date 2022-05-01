@@ -9,16 +9,12 @@ const movieRoute = require('./routers/movieRouter');
 const seriesRoute = require('./routers/seriesRouter');
 const bookRoute = require('./routers/bookRouter');
 const reviewRoute = require('./routers/reviewRouter');
-const { OAuth2Client } = require('google-auth-library');
 require('dotenv').config()
 
 
 const PORT = process.env.PORT || 8000;
 const app = express();
 
-//
-const client = new OAuth2Client(process.env.REACT_APP_GOOGLE_CLIENT_ID);
-//
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
