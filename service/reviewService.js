@@ -195,7 +195,10 @@ class ReviewService {
         try {
             const reviewModels = await ReviewModel.aggregate([
                 {$match: {onItem: type}},
-                {$sort: {likes: -1}},
+                {
+                    $addFields: { likes_count: {$size: { "$ifNull": [ "$likes", [] ] } } }
+                },
+                {$sort: {likes_count: -1}},
                 {$limit: 10},
             ]);
 
