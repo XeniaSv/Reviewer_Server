@@ -48,12 +48,11 @@ class UserService {
     }
 
     async findUser(id) {
-        const user = UserModel.findOne({_id: id});
-        if (!user) {
+        const userModel = UserModel.findOne({_id: id});
+        if (!userModel) {
             throw ApiError.BadRequest('User with such id not found');
         }
-        const {password, ...info} = user._doc;
-        return info;
+        return new UserDto(userModel);
     }
 
     async getUsers(isAdmin) {
