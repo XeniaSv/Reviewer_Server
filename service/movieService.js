@@ -3,7 +3,8 @@ const RatingModel = require('../models/rating');
 const ReviewModel = require('../models/review');
 const ApiError = require('../exceptions/apiError');
 const MovieDto = require('../dtos/movieSeriesDtos/movieSeriesDto');
-const RatingDto = require('../dtos/ratingDto');
+const RatingDto = require('../dtos/ratingDtos/ratingDto');
+const AvgRatingDto = require("../dtos/ratingDtos/avgRatingDto");
 
 class MovieService {
     async createMovie(body, isAdmin) {
@@ -141,7 +142,7 @@ class MovieService {
             sum += rating.rate;
         }
 
-        return {item: movieId, onItem: "Movie", rate: (sum / ratingModels.length).toFixed(1)};
+        return new AvgRatingDto(movieId, "Movie", (sum / ratingModels.length).toFixed(1))
     }
 }
 

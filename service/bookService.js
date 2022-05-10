@@ -3,7 +3,8 @@ const ApiError = require('../exceptions/apiError');
 const BookDto = require('../dtos/bookDtos/BookDto');
 const RatingModel = require("../models/rating");
 const ReviewModel = require('../models/review');
-const RatingDto = require("../dtos/ratingDto");
+const RatingDto = require("../dtos/ratingDtos/ratingDto");
+const AvgRatingDto = require("../dtos/ratingDtos/avgRatingDto");
 
 class BookService {
     async createBook(body, isAdmin) {
@@ -140,7 +141,7 @@ class BookService {
             sum += rating.rate;
         }
 
-        return {item: bookId, onItem: "Book", rate: (sum / ratingModels.length).toFixed(1)};
+        return new AvgRatingDto(bookId, "Book", (sum / ratingModels.length).toFixed(1))
     }
 }
 
