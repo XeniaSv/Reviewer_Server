@@ -14,6 +14,7 @@ require('dotenv').config()
 
 const PORT = process.env.PORT || 8000;
 const app = express();
+let appServer;
 
 app.use(express.json());
 app.use(cookieParser());
@@ -36,11 +37,18 @@ const start = async (url, callback) => {
             useUnifiedTopology: true,
             useNewUrlParser: true
         },() => console.log('DB connected'));
-        app.listen(PORT, () => console.log(`Server started on PORT ${PORT}`))
+        appServer = await app.listen(PORT, () => console.log(`Server started on PORT ${PORT}`));
     }
     catch (e) {
         console.log(e);
     }
 };
 
+const getServer = () => {
+    return appServer;
+}
+
 start();
+
+module.exports.app = app;
+module.exports.getServer = getServer;
