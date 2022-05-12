@@ -1,8 +1,15 @@
 const bookService = require('../service/bookService');
+const {validationResult} = require("express-validator");
+const ApiError = require("../exceptions/apiError");
 
 class BookController {
     async createBook(req, res, next) {
         try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return next(ApiError.BadRequest('Validation error', errors.array()))
+            }
+
             const {body} = req;
             const {isAdmin} = req.user;
 
@@ -16,6 +23,11 @@ class BookController {
 
     async updateBook(req, res, next) {
         try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return next(ApiError.BadRequest('Validation error', errors.array()))
+            }
+
             const {body} = req;
             const {isAdmin} = req.user;
             const {id} = req.params;
@@ -30,6 +42,11 @@ class BookController {
 
     async deleteBook(req, res, next) {
         try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return next(ApiError.BadRequest('Validation error', errors.array()))
+            }
+
             const {isAdmin} = req.user;
             const {id} = req.params;
 
@@ -43,6 +60,11 @@ class BookController {
 
     async getBookById(req, res, next) {
         try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return next(ApiError.BadRequest('Validation error', errors.array()))
+            }
+
             const {id} = req.params;
 
             const bookData = await bookService.getBookById(id);
@@ -65,6 +87,11 @@ class BookController {
 
     async putRatingBook(req, res, next) {
         try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return next(ApiError.BadRequest('Validation error', errors.array()))
+            }
+
             const {body, user} = req;
             const {bookId} = req.params;
 
@@ -78,6 +105,11 @@ class BookController {
 
     async getRatingBookByUser(req, res, next) {
         try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return next(ApiError.BadRequest('Validation error', errors.array()))
+            }
+
             const {userId, bookId} = req.params;
 
             const ratingData = await bookService.getRatingBookByUser(bookId, userId)
@@ -90,6 +122,11 @@ class BookController {
 
     async getAvgRating(req, res, next) {
         try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return next(ApiError.BadRequest('Validation error', errors.array()))
+            }
+
             const {bookId} = req.params;
 
             const ratingData = await bookService.getAvgRating(bookId);
