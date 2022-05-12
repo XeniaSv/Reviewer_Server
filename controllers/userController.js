@@ -1,4 +1,6 @@
 const userService = require('../service/userService');
+const {validationResult} = require("express-validator");
+const ApiError = require("../exceptions/apiError");
 
 class UserController {
     async updateUser(req, res, next) {
@@ -17,6 +19,11 @@ class UserController {
 
     async deleteUser(req, res, next) {
         try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return next(ApiError.BadRequest('Validation error', errors.array()))
+            }
+
             const {id, isAdmin} = req.user;
             const paramId = req.params.id;
 
@@ -30,6 +37,11 @@ class UserController {
 
     async findUser(req, res, next) {
         try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return next(ApiError.BadRequest('Validation error', errors.array()))
+            }
+
             const userData = await userService.findUser(req.params.id);
             return res.status(200).json(userData);
         } catch (e) {
