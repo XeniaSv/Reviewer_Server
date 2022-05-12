@@ -139,7 +139,7 @@ class ReviewService {
         const reviewDtos = [];
 
         for (const reviewModel of reviewModels) {
-            const userModel = await UserModel.findById(reviewModels.author);
+            const userModel = await UserModel.findById(reviewModel.author);
 
             reviewDtos.push(new ReviewDto(userModel.username, reviewModel));
         }

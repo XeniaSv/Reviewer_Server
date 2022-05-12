@@ -48,7 +48,7 @@ class UserService {
     }
 
     async findUser(id) {
-        const userModel = UserModel.findOne({_id: id});
+        const userModel = await UserModel.findById(id);
         if (!userModel) {
             throw ApiError.BadRequest('User with such id not found');
         }
