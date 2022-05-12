@@ -1,8 +1,15 @@
 const reviewService = require('../service/reviewService');
+const {validationResult} = require("express-validator");
+const ApiError = require("../exceptions/apiError");
 
 class ReviewController {
     async createReview(req, res, next) {
         try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return next(ApiError.BadRequest('Validation error', errors.array()))
+            }
+
             const reviewData = await reviewService.createReview(req.body);
 
             return res.status(201).json(reviewData);
@@ -13,6 +20,11 @@ class ReviewController {
 
     async updateReview(req, res, next) {
         try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return next(ApiError.BadRequest('Validation error', errors.array()))
+            }
+
             const {body, user} = req;
             const {id} = req.params;
 
@@ -26,6 +38,11 @@ class ReviewController {
 
     async deleteReview(req, res, next) {
         try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return next(ApiError.BadRequest('Validation error', errors.array()))
+            }
+
             const {user} = req;
             const {id} = req.params;
 
@@ -39,6 +56,11 @@ class ReviewController {
 
     async getReviewById(req, res, next) {
         try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return next(ApiError.BadRequest('Validation error', errors.array()))
+            }
+
             const {id} = req.params;
 
             const reviewData = await reviewService.getReviewById(id);
@@ -51,6 +73,11 @@ class ReviewController {
 
     async getReviewsByItemId(req, res, next) {
         try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return next(ApiError.BadRequest('Validation error', errors.array()))
+            }
+
             const {id} = req.params;
 
             const reviewData = await reviewService.getReviewsByItemId(id);
@@ -63,6 +90,11 @@ class ReviewController {
 
     async getReviewsIdsByItemId(req, res, next) {
         try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return next(ApiError.BadRequest('Validation error', errors.array()))
+            }
+
             const {id} = req.params;
 
             const reviewData = await reviewService.getReviewsIdsByItemId(id);
@@ -75,6 +107,11 @@ class ReviewController {
 
     async getReviewsIdsByTag(req, res, next) {
         try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return next(ApiError.BadRequest('Validation error', errors.array()))
+            }
+
             const {tag, type} = req.params;
 
             const reviewData = await reviewService.getReviewsIdsByTag(tag, type);
@@ -87,6 +124,11 @@ class ReviewController {
 
     async getReviewsByAuthorId(req, res, next) {
         try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return next(ApiError.BadRequest('Validation error', errors.array()))
+            }
+
             const {type, id} = req.params;
 
             const reviewData = await reviewService.getReviewsByAuthorId(type, id);
@@ -109,6 +151,11 @@ class ReviewController {
 
     async putLike(req, res, next) {
         try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return next(ApiError.BadRequest('Validation error', errors.array()))
+            }
+
             const {id} = req.params;
             const {user} = req;
 
@@ -122,6 +169,11 @@ class ReviewController {
 
     async getLatestReviews(req, res, next) {
         try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return next(ApiError.BadRequest('Validation error', errors.array()))
+            }
+
             const {type} = req.params;
 
             const reviewData = await reviewService.getLatestReviews(type);
@@ -134,6 +186,11 @@ class ReviewController {
 
     async getPopularReviews(req, res, next) {
         try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return next(ApiError.BadRequest('Validation error', errors.array()))
+            }
+
             const {type} = req.params;
 
             const reviewData = await reviewService.getPopularReviews(type);
