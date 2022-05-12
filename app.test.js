@@ -141,7 +141,7 @@ describe('Service tests', () => {
 
         it('It should delete user rating to test movie', async () => {
             const data = {
-                user: adminLoginData.id,
+                user: adminLoginData.user.id,
                 item: testMovieData.id,
                 onItem: 'Movie',
                 rate: null
