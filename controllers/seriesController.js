@@ -1,8 +1,15 @@
 const seriesService = require('../service/seriesService')
+const {validationResult} = require("express-validator");
+const ApiError = require("../exceptions/apiError");
 
 class SeriesController {
     async createSeries(req, res, next) {
         try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return next(ApiError.BadRequest('Validation error', errors.array()))
+            }
+
             const {body} = req;
             const {isAdmin} = req.user;
 
@@ -16,6 +23,11 @@ class SeriesController {
 
     async updateSeries(req, res, next) {
         try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return next(ApiError.BadRequest('Validation error', errors.array()))
+            }
+
             const {body} = req;
             const {isAdmin} = req.user;
             const {id} = req.params;
@@ -30,6 +42,11 @@ class SeriesController {
 
     async deleteSeries(req, res, next) {
         try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return next(ApiError.BadRequest('Validation error', errors.array()))
+            }
+
             const {isAdmin} = req.user;
             const {id} = req.params;
 
@@ -43,6 +60,11 @@ class SeriesController {
 
     async getSeriesById(req, res, next) {
         try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return next(ApiError.BadRequest('Validation error', errors.array()))
+            }
+
             const {id} = req.params;
 
             const seriesData = await seriesService.getSeriesById(id);
@@ -65,6 +87,11 @@ class SeriesController {
 
     async putRatingSeries(req, res, next) {
         try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return next(ApiError.BadRequest('Validation error', errors.array()))
+            }
+
             const {body, user} = req;
             const {seriesId} = req.params;
 
@@ -78,6 +105,11 @@ class SeriesController {
 
     async getRatingSeriesByUser(req, res, next) {
         try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return next(ApiError.BadRequest('Validation error', errors.array()))
+            }
+
             const {userId, seriesId} = req.params;
 
             const ratingData = await seriesService.getRatingSeriesByUser(seriesId, userId)
@@ -90,6 +122,11 @@ class SeriesController {
 
     async getAvgRating(req, res, next) {
         try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return next(ApiError.BadRequest('Validation error', errors.array()))
+            }
+
             const {seriesId} = req.params;
 
             const ratingData = await seriesService.getAvgRating(seriesId);
