@@ -49,7 +49,6 @@ class AuthService {
     }
 
     async refresh(refreshToken) {
-        console.log(refreshToken)
         if (!refreshToken) {
             throw ApiError.UnauthorizedError();
         }
@@ -57,8 +56,6 @@ class AuthService {
         const tokenFromDB = await tokenService.findToken(refreshToken);
 
         if (!userData || !tokenFromDB) {
-            console.log(userData)
-            console.log(tokenFromDB)
             throw ApiError.UnauthorizedError();
         }
 
