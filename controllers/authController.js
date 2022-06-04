@@ -11,7 +11,13 @@ class AuthController {
             }
             const {username, email, password} = req.body;
             const authData = await authService.register(username, email, password);
-            res.cookie('refreshToken', authData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, domain: process.env.NODE_ENV === 'development' ? 'localhost' : 'reviewer-flax.vercel.app'})
+            res.cookie('refreshToken', authData.refreshToken, {
+                maxAge: 30 * 24 * 60 * 60 * 1000,
+                httpOnly: true,
+                domain: process.env.NODE_ENV === 'development' ? 'localhost' : 'reviewer-flax.vercel.app',
+                secure: true,
+                sameSite: "none"
+            })
             return res.status(201).json(authData);
         } catch (e) {
             next(e);
@@ -26,8 +32,13 @@ class AuthController {
             }
             const {email, password} = req.body;
             const authData = await authService.login(email, password);
-            console.log(process.env.NODE_ENV === 'development' ? 'localhost' : 'reviewer-flax.vercel.app');
-            res.cookie('refreshToken', authData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, domain: process.env.NODE_ENV === 'development' ? 'localhost' : 'reviewer-flax.vercel.app'})
+            res.cookie('refreshToken', authData.refreshToken, {
+                maxAge: 30 * 24 * 60 * 60 * 1000,
+                httpOnly: true,
+                domain: process.env.NODE_ENV === 'development' ? 'localhost' : 'reviewer-flax.vercel.app',
+                secure: true,
+                sameSite: 'none'
+            })
             return res.status(200).json(authData);
         } catch (e) {
             next(e);
@@ -40,8 +51,7 @@ class AuthController {
             const token = await authService.logout(refreshToken);
             res.clearCookie('refreshToken');
             return res.json(token);
-        }
-        catch (e) {
+        } catch (e) {
             next(e);
         }
     }
@@ -50,7 +60,13 @@ class AuthController {
         try {
             const {refreshToken} = req.cookies;
             const authData = await authService.refresh(refreshToken);
-            res.cookie('refreshToken', authData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, domain: process.env.NODE_ENV === 'development' ? 'localhost' : 'reviewer-flax.vercel.app'})
+            res.cookie('refreshToken', authData.refreshToken, {
+                maxAge: 30 * 24 * 60 * 60 * 1000,
+                httpOnly: true,
+                domain: process.env.NODE_ENV === 'development' ? 'localhost' : 'reviewer-flax.vercel.app',
+                secure: true,
+                sameSite: "none"
+            })
             return res.json(authData);
         } catch (e) {
             next(e);
