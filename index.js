@@ -17,12 +17,12 @@ const app = express();
 let appServer;
 
 app.use(express.json());
-app.use(cookieParser());
+app.use(cookieParser('secret'));
 app.use(cors({
     credentials: true,
     origin: process.env.CLIENT_URL
 }));
-app.enable('trust proxy');
+app.set('trust proxy', 1);
 
 app.use('/api/auth', authRoute);
 app.use('/api/users', userRoute);
