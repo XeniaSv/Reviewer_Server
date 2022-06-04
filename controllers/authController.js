@@ -14,7 +14,7 @@ class AuthController {
             res.cookie('refreshToken', authData.refreshToken, {
                 maxAge: 30 * 24 * 60 * 60 * 1000,
                 httpOnly: true,
-                domain: process.env.NODE_ENV === 'development' ? 'localhost' : 'reviewer-flax.vercel.app',
+                // domain: process.env.NODE_ENV === 'development' ? 'localhost' : 'reviewer-flax.vercel.app',
                 secure: true,
                 sameSite: "none"
             })
@@ -35,7 +35,7 @@ class AuthController {
             res.cookie('refreshToken', authData.refreshToken, {
                 maxAge: 30 * 24 * 60 * 60 * 1000,
                 httpOnly: true,
-                domain: process.env.NODE_ENV === 'development' ? 'localhost' : 'reviewer-flax.vercel.app',
+                // domain: process.env.NODE_ENV === 'development' ? 'localhost' : 'reviewer-flax.vercel.app',
                 secure: true,
                 sameSite: 'none'
             })
@@ -63,7 +63,7 @@ class AuthController {
             res.cookie('refreshToken', authData.refreshToken, {
                 maxAge: 30 * 24 * 60 * 60 * 1000,
                 httpOnly: true,
-                domain: process.env.NODE_ENV === 'development' ? 'localhost' : 'reviewer-flax.vercel.app',
+                // domain: process.env.NODE_ENV === 'development' ? 'localhost' : 'reviewer-flax.vercel.app',
                 secure: true,
                 sameSite: "none"
             })
