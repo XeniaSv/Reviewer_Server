@@ -22,6 +22,7 @@ app.use(cors({
     credentials: true,
     origin: process.env.CLIENT_URL
 }));
+app.enable('trust proxy');
 
 app.use('/api/auth', authRoute);
 app.use('/api/users', userRoute);
