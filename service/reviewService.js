@@ -11,7 +11,7 @@ class ReviewService {
         const existingReviewModel = await ReviewModel.findOne({author: body.author, item: body.item});
 
         if (existingReviewModel) {
-            throw ApiError.BadRequest('You have already create review')
+            throw ApiError.BadRequest('Вы уже создали рецензию на данный предмет')
         }
 
         try {
@@ -22,18 +22,18 @@ class ReviewService {
 
             return new ReviewDto(userModel.username, reviewModel);
         } catch (e) {
-            throw ApiError.BadRequest('There is no such item')
+            throw ApiError.BadRequest('Данный предмет не существует')
         }
     }
 
     async updateReview(body, userId, paramId) {
         const reviewModel = await ReviewModel.findById(paramId);
         if (!reviewModel) {
-            throw ApiError.BadRequest('Review with such id not found');
+            throw ApiError.BadRequest('Рецензия не найдена');
         }
 
         if (reviewModel.author !== userId)
-            throw ApiError.BadRequest('You cannot update this review');
+            throw ApiError.BadRequest('Вы не можете обновить чужую рецензию');
 
         const updateReviewModel = await ReviewModel.findByIdAndUpdate(reviewModel._id, {
             $set: body
@@ -48,11 +48,11 @@ class ReviewService {
         const reviewModel = await ReviewModel.findById(paramId);
 
         if (!reviewModel) {
-            throw ApiError.BadRequest('Review with such id not found');
+            throw ApiError.BadRequest('Рецензия не найдена');
         }
 
         if (reviewModel.author !== userId)
-            throw ApiError.BadRequest('You cannot update this review');
+            throw ApiError.BadRequest('Вы не можете обновить чужую рецензию');
 
         await reviewModel.remove();
     }
@@ -61,7 +61,7 @@ class ReviewService {
         const reviewModel = await ReviewModel.findById(paramId);
 
         if (!reviewModel) {
-            throw ApiError.BadRequest('Review with such id not found');
+            throw ApiError.BadRequest('Рецензия не найдена');
         }
 
         const userModel = await UserModel.findById(reviewModel.author);
@@ -151,7 +151,7 @@ class ReviewService {
         const existingReviewModel = await ReviewModel.findById(paramId);
 
         if (!existingReviewModel) {
-            throw ApiError.BadRequest('Review with such id not found');
+            throw ApiError.BadRequest('Рецензия не найдена');
         }
 
         if (existingReviewModel.likes.includes(userId)) {
@@ -187,7 +187,7 @@ class ReviewService {
 
             return reviewIds;
         } catch (e) {
-            throw ApiError.BadRequest('Cannot aggregate');
+            throw ApiError.BadRequest('Агрегация невозможна');
         }
     }
 
@@ -210,7 +210,7 @@ class ReviewService {
 
             return reviewIds;
         } catch (e) {
-            throw ApiError.BadRequest('Cannot aggregate');
+            throw ApiError.BadRequest('Агрегация невозможна');
         }
     }
 }

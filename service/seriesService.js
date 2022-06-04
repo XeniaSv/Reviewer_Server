@@ -9,7 +9,7 @@ const AvgRatingDto = require("../dtos/ratingDtos/avgRatingDto");
 class SeriesService {
     async createSeries(body, isAdmin) {
         if (!isAdmin) {
-            throw ApiError.NotAdmin('You are not allowed!');
+            throw ApiError.NotAdmin('Вы не администратор!');
         }
 
         try {
@@ -18,13 +18,13 @@ class SeriesService {
 
             return new SeriesDto(seriesModel);
         } catch (e) {
-            throw ApiError.BadRequest('Series with such name already exits')
+            throw ApiError.BadRequest('Сериал с данным названием уже создан')
         }
     }
 
     async updateSeries(body, isAdmin, id) {
         if (!isAdmin) {
-            throw ApiError.NotAdmin('You are not allowed!');
+            throw ApiError.NotAdmin('Вы не администратор!');
         }
 
         try {
@@ -38,13 +38,13 @@ class SeriesService {
 
             return new SeriesDto(seriesModel);
         } catch (e) {
-            throw ApiError.BadRequest('Cannot find series with such id')
+            throw ApiError.BadRequest('Данного сериала не существует');
         }
     }
 
     async deleteSeries(isAdmin, id) {
         if (!isAdmin) {
-            throw ApiError.NotAdmin('You are not allowed!');
+            throw ApiError.NotAdmin('Вы не администратор!');
         }
 
         try {
@@ -52,7 +52,7 @@ class SeriesService {
             await ReviewModel.deleteMany({item: id});
             await SeriesModel.findByIdAndDelete(id);
         } catch (e) {
-            throw ApiError.BadRequest('Cannot find series with such id')
+            throw ApiError.BadRequest('Данного сериала не существует');
         }
     }
 
@@ -62,7 +62,7 @@ class SeriesService {
 
             return new SeriesDto(seriesModel);
         } catch (e) {
-            throw ApiError.BadRequest('Cannot find series with such id')
+            throw ApiError.BadRequest('Данного сериала не существует');
         }
     }
 
@@ -81,7 +81,7 @@ class SeriesService {
         const seriesModel = await SeriesModel.findById(seriesId);
 
         if (!seriesModel) {
-            throw ApiError.BadRequest('There is no such movie');
+            throw ApiError.BadRequest('Данного сериала не существует');
         }
 
         const existedRate = await RatingModel.findOne({user: body.user, item: body.item});
@@ -93,7 +93,7 @@ class SeriesService {
         }
 
         if (existedRate.user !== userId) {
-            throw ApiError.BadRequest('You cannot update this rate');
+            throw ApiError.BadRequest('Вы не можете обновить чужой рейтинг');
         }
 
         if (body.rate === null) {
@@ -122,7 +122,7 @@ class SeriesService {
         const seriesModel = await SeriesModel.findById(seriesId);
 
         if (!seriesModel) {
-            throw ApiError.BadRequest('There is no such series');
+            throw ApiError.BadRequest('Данного сериала не существует');
         }
 
         const ratingModels = await RatingModel.find({item: seriesId});

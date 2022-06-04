@@ -31,7 +31,7 @@ class UserService {
 
     async deleteUser(userId, paramId, isAdmin) {
         if (!isAdmin)
-            throw ApiError.NotAdmin('You are not allowed!');
+            throw ApiError.NotAdmin('Вы не администратор!');
 
         if (userId !== paramId && !isAdmin) {
             throw ApiError.NotYourAccount();
@@ -43,21 +43,21 @@ class UserService {
             await ReviewModel.updateMany({$pull: {likes: paramId}});
             await UserModel.findByIdAndDelete(paramId);
         } catch (e) {
-            throw ApiError.BadRequest('User with such id not found');
+            throw ApiError.BadRequest('Пользователь не найден');
         }
     }
 
     async findUser(id) {
         const userModel = await UserModel.findById(id);
         if (!userModel) {
-            throw ApiError.BadRequest('User with such id not found');
+            throw ApiError.BadRequest('Пользователь не найден');
         }
         return new UserDto(userModel);
     }
 
     async getUsers(isAdmin) {
         if (!isAdmin) {
-            throw new ApiError.NotAdmin('You are not allowed to see all users');
+            throw new ApiError.NotAdmin('Вы не администратор!');
         }
 
         const userModels = await UserModel.find();

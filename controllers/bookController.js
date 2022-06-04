@@ -7,7 +7,7 @@ class BookController {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
-                return next(ApiError.BadRequest('Validation error', errors.array()))
+                return next(ApiError.BadRequest('Ошибка валидации', errors.array()))
             }
 
             const {body} = req;
@@ -25,7 +25,7 @@ class BookController {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
-                return next(ApiError.BadRequest('Validation error', errors.array()))
+                return next(ApiError.BadRequest('Ошибка валидации', errors.array()))
             }
 
             const {body} = req;
@@ -44,7 +44,7 @@ class BookController {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
-                return next(ApiError.BadRequest('Validation error', errors.array()))
+                return next(ApiError.BadRequest('Ошибка валидации', errors.array()))
             }
 
             const {isAdmin} = req.user;
@@ -52,7 +52,7 @@ class BookController {
 
             await bookService.deleteBook(isAdmin, id);
 
-            return res.status(200).json('The book has been deleted...');
+            return res.status(200).json('Книга была удалена');
         } catch (e) {
             next(e);
         }
@@ -62,7 +62,7 @@ class BookController {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
-                return next(ApiError.BadRequest('Validation error', errors.array()))
+                return next(ApiError.BadRequest('Ошибка валидации', errors.array()))
             }
 
             const {id} = req.params;
@@ -89,7 +89,7 @@ class BookController {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
-                return next(ApiError.BadRequest('Validation error', errors.array()))
+                return next(ApiError.BadRequest('Ошибка валидации', errors.array()))
             }
 
             const {body, user} = req;
@@ -107,7 +107,7 @@ class BookController {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
-                return next(ApiError.BadRequest('Validation error', errors.array()))
+                return next(ApiError.BadRequest('Ошибка валидации', errors.array()))
             }
 
             const {userId, bookId} = req.params;
@@ -124,7 +124,7 @@ class BookController {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
-                return next(ApiError.BadRequest('Validation error', errors.array()))
+                return next(ApiError.BadRequest('Ошибка валидации', errors.array()))
             }
 
             const {bookId} = req.params;

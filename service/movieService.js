@@ -9,7 +9,7 @@ const AvgRatingDto = require("../dtos/ratingDtos/avgRatingDto");
 class MovieService {
     async createMovie(body, isAdmin) {
         if (!isAdmin) {
-            throw ApiError.NotAdmin('You are not allowed!');
+            throw ApiError.NotAdmin('Вы не администратор!');
         }
 
         try {
@@ -18,13 +18,13 @@ class MovieService {
 
             return new MovieDto(movieModel);
         } catch (e) {
-            throw ApiError.BadRequest('Movie with such name already exits')
+            throw ApiError.BadRequest('Фильм с данным названием уже создан');
         }
     }
 
     async updateMovie(body, isAdmin, id) {
         if (!isAdmin) {
-            throw ApiError.NotAdmin('You are not allowed!');
+            throw ApiError.NotAdmin('Вы не администратор!');
         }
 
         try {
@@ -38,13 +38,13 @@ class MovieService {
 
             return new MovieDto(movieModel);
         } catch (e) {
-            throw ApiError.BadRequest('Cannot find movie with such id')
+            throw ApiError.BadRequest('Данный фильм не существует')
         }
     }
 
     async deleteMovie(isAdmin, id) {
         if (!isAdmin) {
-            throw ApiError.NotAdmin('You are not allowed!');
+            throw ApiError.NotAdmin('Вы не администратор!');
         }
 
         try {
@@ -52,7 +52,7 @@ class MovieService {
             await ReviewModel.deleteMany({item: id});
             await MovieModel.findByIdAndDelete(id);
         } catch (e) {
-            throw ApiError.BadRequest('Cannot find movie with such id')
+            throw ApiError.BadRequest('Данный фильм не существует')
         }
     }
 
@@ -62,7 +62,7 @@ class MovieService {
 
             return new MovieDto(movie);
         } catch (e) {
-            throw ApiError.BadRequest('Cannot find movie with such id')
+            throw ApiError.BadRequest('Данный фильм не существует')
         }
     }
 
@@ -82,7 +82,7 @@ class MovieService {
         const movieModel = await MovieModel.findById(movieId);
 
         if (!movieModel) {
-            throw ApiError.BadRequest('There is no such movie');
+            throw ApiError.BadRequest('Данный фильм не существует')
         }
 
         const existedRate = await RatingModel.findOne({user: body.user, item: body.item});
@@ -94,7 +94,7 @@ class MovieService {
         }
 
         if (existedRate.user !== userId) {
-            throw ApiError.BadRequest('You cannot update this rate');
+            throw ApiError.BadRequest('Вы не можете обновить чужой рейтинг');
         }
 
         if (body.rate === null) {
@@ -123,7 +123,7 @@ class MovieService {
         const movieModel = await MovieModel.findById(movieId);
 
         if (!movieModel) {
-            throw ApiError.BadRequest('There is no such movie');
+            throw ApiError.BadRequest('Данный фильм не существует')
         }
 
         const ratingModels = await RatingModel.find({item: movieId});

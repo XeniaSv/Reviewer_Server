@@ -9,7 +9,7 @@ const AvgRatingDto = require("../dtos/ratingDtos/avgRatingDto");
 class BookService {
     async createBook(body, isAdmin) {
         if (!isAdmin) {
-            throw ApiError.NotAdmin('You are not allowed!');
+            throw ApiError.NotAdmin('Вы не администратор!');
         }
 
         try {
@@ -18,13 +18,13 @@ class BookService {
 
             return new BookDto(bookModel);
         } catch (e) {
-            throw ApiError.BadRequest('Movie with such name already exits')
+            throw ApiError.BadRequest('Книга с данным названием уже создана');
         }
     }
 
     async updateBook(body, isAdmin, id) {
         if (!isAdmin) {
-            throw ApiError.NotAdmin('You are not allowed!');
+            throw ApiError.NotAdmin('Вы не администратор!');
         }
 
         try {
@@ -38,13 +38,13 @@ class BookService {
 
             return new BookDto(bookModel);
         } catch (e) {
-            throw ApiError.BadRequest('Cannot find movie with such id')
+            throw ApiError.BadRequest('Данной книги не существует')
         }
     }
 
     async deleteBook(isAdmin, id) {
         if (!isAdmin) {
-            throw ApiError.NotAdmin('You are not allowed!');
+            throw ApiError.NotAdmin('Вы не администратор!');
         }
 
         try {
@@ -52,7 +52,7 @@ class BookService {
             await ReviewModel.deleteMany({item: id});
             await BookModel.findByIdAndDelete(id);
         } catch (e) {
-            throw ApiError.BadRequest('Cannot find movie with such id')
+            throw ApiError.BadRequest('Данной книги не существует')
         }
     }
 
@@ -62,7 +62,7 @@ class BookService {
 
             return new BookDto(book);
         } catch (e) {
-            throw ApiError.BadRequest('Cannot find book with such id')
+            throw ApiError.BadRequest('Данной книги не существует')
         }
     }
 
@@ -81,7 +81,7 @@ class BookService {
         const bookModel = await BookModel.findById(bookId);
 
         if (!bookModel) {
-            throw ApiError.BadRequest('There is no such book');
+            throw ApiError.BadRequest('Данной книги не существует')
         }
 
         const existedRate = await RatingModel.findOne({user: body.user, item: body.item});
@@ -93,7 +93,7 @@ class BookService {
         }
 
         if (existedRate.user !== userId) {
-            throw ApiError.BadRequest('You cannot update this rate');
+            throw ApiError.BadRequest('Вы не можете обновить чужой рейтинг');
         }
 
         if (body.rate === null) {
@@ -122,7 +122,7 @@ class BookService {
         const bookModel = await BookModel.findById(bookId);
 
         if (!bookModel) {
-            throw ApiError.BadRequest('There is no such book');
+            throw ApiError.BadRequest('Данной книги не существует')
         }
 
         const ratingModels = await RatingModel.find({item: bookId});

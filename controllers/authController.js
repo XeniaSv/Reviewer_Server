@@ -7,11 +7,11 @@ class AuthController {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
-                return next(ApiError.BadRequest('Validation error', errors.array()))
+                return next(ApiError.BadRequest('Ошибка валидации', errors.array()))
             }
             const {username, email, password} = req.body;
             const authData = await authService.register(username, email, password);
-            res.cookie('refreshToken', authData.refreshToken, {maxAge: 1000 * 60 * 60 * 24, httpOnly: true})
+            res.cookie('refreshToken', authData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
             return res.status(201).json(authData);
         } catch (e) {
             next(e);
@@ -22,11 +22,11 @@ class AuthController {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
-                return next(ApiError.BadRequest('Validation error', errors.array()))
+                return next(ApiError.BadRequest('Ошибка валидации', errors.array()))
             }
             const {email, password} = req.body;
             const authData = await authService.login(email, password);
-            res.cookie('refreshToken', authData.refreshToken, {maxAge: 1000 * 60 * 60 * 24, httpOnly: true})
+            res.cookie('refreshToken', authData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
             return res.status(200).json(authData);
         } catch (e) {
             next(e);
@@ -49,7 +49,7 @@ class AuthController {
         try {
             const {refreshToken} = req.cookies;
             const authData = await authService.refresh(refreshToken);
-            res.cookie('refreshToken', authData.refreshToken, {maxAge: 1000 * 60 * 60 * 24, httpOnly: true})
+            res.cookie('refreshToken', authData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
             return res.json(authData);
         } catch (e) {
             next(e);

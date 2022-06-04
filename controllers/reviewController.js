@@ -7,7 +7,7 @@ class ReviewController {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
-                return next(ApiError.BadRequest('Validation error', errors.array()))
+                return next(ApiError.BadRequest('Ошибка валидации', errors.array()))
             }
 
             const reviewData = await reviewService.createReview(req.body);
@@ -22,7 +22,7 @@ class ReviewController {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
-                return next(ApiError.BadRequest('Validation error', errors.array()))
+                return next(ApiError.BadRequest('Ошибка валидации', errors.array()))
             }
 
             const {body, user} = req;
@@ -40,7 +40,7 @@ class ReviewController {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
-                return next(ApiError.BadRequest('Validation error', errors.array()))
+                return next(ApiError.BadRequest('Ошибка валидации', errors.array()))
             }
 
             const {user} = req;
@@ -48,7 +48,7 @@ class ReviewController {
 
             await reviewService.deleteReview(user.id, id);
 
-            return res.status(200).json('Review was deleted');
+            return res.status(200).json('Рецензия была удалена');
         } catch (e) {
             next(e);
         }
@@ -58,7 +58,7 @@ class ReviewController {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
-                return next(ApiError.BadRequest('Validation error', errors.array()))
+                return next(ApiError.BadRequest('Ошибка валидации', errors.array()))
             }
 
             const {id} = req.params;
@@ -75,7 +75,7 @@ class ReviewController {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
-                return next(ApiError.BadRequest('Validation error', errors.array()))
+                return next(ApiError.BadRequest('Ошибка валидации', errors.array()))
             }
 
             const {id} = req.params;
@@ -92,7 +92,7 @@ class ReviewController {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
-                return next(ApiError.BadRequest('Validation error', errors.array()))
+                return next(ApiError.BadRequest('Ошибка валидации', errors.array()))
             }
 
             const {id} = req.params;
@@ -109,7 +109,7 @@ class ReviewController {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
-                return next(ApiError.BadRequest('Validation error', errors.array()))
+                return next(ApiError.BadRequest('Ошибка валидации', errors.array()))
             }
 
             const {tag, type} = req.params;
@@ -126,7 +126,7 @@ class ReviewController {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
-                return next(ApiError.BadRequest('Validation error', errors.array()))
+                return next(ApiError.BadRequest('Ошибка валидации', errors.array()))
             }
 
             const {type, id} = req.params;
@@ -153,7 +153,7 @@ class ReviewController {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
-                return next(ApiError.BadRequest('Validation error', errors.array()))
+                return next(ApiError.BadRequest('Ошибка валидации', errors.array()))
             }
 
             const {id} = req.params;
@@ -171,7 +171,7 @@ class ReviewController {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
-                return next(ApiError.BadRequest('Validation error', errors.array()))
+                return next(ApiError.BadRequest('Ошибка валидации', errors.array()))
             }
 
             const {type} = req.params;
@@ -188,7 +188,7 @@ class ReviewController {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
-                return next(ApiError.BadRequest('Validation error', errors.array()))
+                return next(ApiError.BadRequest('Ошибка валидации', errors.array()))
             }
 
             const {type} = req.params;

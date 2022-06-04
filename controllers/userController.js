@@ -21,7 +21,7 @@ class UserController {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
-                return next(ApiError.BadRequest('Validation error', errors.array()))
+                return next(ApiError.BadRequest('Ошибка валидации', errors.array()))
             }
 
             const {id, isAdmin} = req.user;
@@ -29,7 +29,7 @@ class UserController {
 
             await userService.deleteUser(id, paramId, isAdmin);
 
-            return res.status(200).json('User has been deleted');
+            return res.status(200).json('Пользователь был удален');
         } catch (e) {
             next(e);
         }
@@ -39,7 +39,7 @@ class UserController {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) {
-                return next(ApiError.BadRequest('Validation error', errors.array()))
+                return next(ApiError.BadRequest('Ошибка валидации', errors.array()))
             }
 
             const userData = await userService.findUser(req.params.id);
