@@ -26,6 +26,7 @@ class AuthController {
             }
             const {email, password} = req.body;
             const authData = await authService.login(email, password);
+            console.log(process.env.NODE_ENV === 'development' ? 'localhost' : 'reviewer-flax.vercel.app');
             res.cookie('refreshToken', authData.refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true, domain: process.env.NODE_ENV === 'development' ? 'localhost' : 'reviewer-flax.vercel.app'})
             return res.status(200).json(authData);
         } catch (e) {
